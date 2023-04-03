@@ -1,13 +1,11 @@
+require('dotenv').config();
 const axios = require('axios');
 const fs = require('fs');
-const process = require('process');
-require('dotenv').config();
 
-
-// Get the command line arguments
+// Get command line arguments
 const [,, make, model, year, filePath] = process.argv;
 
-// Set up the API request
+// Set API request options
 const options = {
   method: 'GET',
   url: 'https://cars-by-api-ninjas.p.rapidapi.com/v1/cars',
@@ -18,18 +16,17 @@ const options = {
   }
 };
 
-// Make the API request using axios
-axios.request(options)
-  .then(response => {
-    const data = response.data;
-    console.log(data); // Display the content
+// Make API request and write response to file
+axios.request(options).then(function (response) {
+  const data = response.data;
+  console.log(data);
 
-    // Save the data to a text file
-    fs.writeFile(filePath, JSON.stringify(data), err => {
-      if (err) throw err;
-      console.log(`Data written to ${filePath}`);
-    });
-  })
-  .catch(error => {
-    console.log(`Error fetching data: ${error}`);
+  fs.writeFile(filePath, JSON.stringify(data), function (err) {
+    if (err) throw err;
+    console.log('Data written to file');
   });
+}).catch(function (error) {
+  console.error(error);
+});
+
+
