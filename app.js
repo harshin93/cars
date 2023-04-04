@@ -19,14 +19,15 @@ const options = {
 // Make API request and write response to file
 axios.request(options).then(function (response) {
   const data = response.data;
-  console.log(data);
+  console.log(JSON.stringify(data, null, 2));
 
-  fs.writeFile(filePath, JSON.stringify(data), function (err) {
+  fs.writeFile(filePath, JSON.stringify(data, null, 2), function (err) {
     if (err) throw err;
     console.log('Data written to file');
   });
 }).catch(function (error) {
   console.error(error);
 });
+
 
 
